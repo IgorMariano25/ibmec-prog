@@ -27,12 +27,12 @@ class Paleta:
     velocidade: int = 5
 
     def __init__(self, posicao: List[int], dimensoes: List[int], acoes: List[int], limites: List[int]) -> None:
-        self.largura = dimensoes[0]
-        self.altura = dimensoes[1]
-        self.posicao = posicao
-        self.subir = acoes[0]
-        self.descer = acoes[1]
-        self.limites = limites
+        self.largura: int = dimensoes[0]
+        self.altura: int = dimensoes[1]
+        self.posicao: List[int] = posicao
+        self.subir: int = acoes[0]
+        self.descer: int = acoes[1]
+        self.limites: List[int] = limites
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha uma paleta na tela."""
@@ -60,10 +60,10 @@ class Bola:
     velocidade: int = 10
 
     def __init__(self, posicao: List[int], raio: int, limites: List[int]) -> None:
-        self.posicao = posicao
-        self.raio = raio
-        self.direcao = cria_vetor_unitario()
-        self.limites = limites
+        self.posicao: List[int] = posicao
+        self.raio: int = raio
+        self.direcao: List[float] = cria_vetor_unitario()
+        self.limites: List[int] = limites
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha a bola na tela."""
@@ -76,7 +76,7 @@ class Bola:
 
     def movimenta(self) -> None:
         """Movimenta a bola."""
-        self.posicao = [
+        self.posicao: List[int] = [
             int(self.posicao[0] + self.velocidade * self.direcao[0]),
             int(self.posicao[1] + self.velocidade * self.direcao[1]),
         ]
@@ -95,6 +95,7 @@ class Tela:
     def __init__(self, largura: int, altura: int) -> None:
         self.largura: int = largura
         self.altura: int = altura
+        self.pontos: List[int] = [0, 0]
         self.tela: pygame.Surface = self.cria_tela()
 
         self.limites: List[int] = [
@@ -174,7 +175,7 @@ class Tela:
 
     def cria_bola(self) -> Bola:
         """Inicializa a bola da tela."""
-        posicao_inicial = (self.largura // 2, self.altura // 2)
+        posicao_inicial: Tuple[int] = (self.largura // 2, self.altura // 2)
 
         return Bola(posicao_inicial, 10, self.limites)
 
@@ -182,7 +183,7 @@ class Tela:
 def cria_vetor_unitario() -> List[float]:
     """Cria um vetor unitário [x, y] com a direção da bola."""
     while True:
-        dir_x = random.uniform(-1.0, 1.0)
+        dir_x: float = random.uniform(-1.0, 1.0)
         if dir_x:
             break
 
