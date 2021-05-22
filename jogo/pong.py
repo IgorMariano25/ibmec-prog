@@ -71,8 +71,8 @@ class Bola:
 class Tela:
     """Informações sobre a tela."""
     def __init__(self, largura: int, altura: int) -> None:
-        self.largura = largura
-        self.altura = altura
+        self.largura: int = largura
+        self.altura: int = altura
         self.tela: pygame.Surface = self.cria_tela()
         self.paletas: List[Paleta] = self.cria_paletas()
         self.bola: Bola = self.cria_bola()
