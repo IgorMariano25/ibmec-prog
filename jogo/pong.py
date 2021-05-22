@@ -21,6 +21,7 @@ class Cores:
     """Cores para a tela e objetos."""
     preto: Tuple[int] = (0, 0, 0)
     branco: Tuple[int] = (255, 255, 255)
+    vermelho: Tuple[int] = (255, 0, 0)
 
 
 class Paleta:
@@ -159,7 +160,18 @@ class Tela:
 
         self.desenha_meio_campo()
         self.desenha_bordas()
+        self.desenha_pontuacao()
         pygame.display.update()
+
+    def desenha_pontuacao(self) -> None:
+        """Desenha pontuação na tela."""
+        font: pygame.font.Font = pygame.font.SysFont(None, 50)
+
+        p1_pontos = font.render(str(self.pontos[0]), True, Cores.vermelho)
+        p2_pontos = font.render(str(self.pontos[1]), True, Cores.vermelho)
+
+        self.tela.blit(p1_pontos, (15, 20))
+        self.tela.blit(p2_pontos, (self.largura - 35, 20))
 
     def desenha_meio_campo(self) -> None:
         """Desenha o meio de campo do jogo."""
