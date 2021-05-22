@@ -23,18 +23,19 @@ class Paleta:
     """Paleta para refletir a bola."""
     velocidade: int = 5
 
-    def __init__(self, posicao: List[int], dimensoes: List[int], subir: int, descer: int) -> None:
-        self.dimensoes = dimensoes
+    def __init__(self, posicao: List[int], dimensoes: List[int], acoes: List[int]) -> None:
+        self.largura = dimensoes[0]
+        self.altura = dimensoes[1]
         self.posicao = posicao
-        self.subir = subir
-        self.descer = descer
+        self.subir = acoes[0]
+        self.descer = acoes[1]
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha uma paleta na tela."""
         pygame.draw.rect(
             tela,
             Cores.branco,
-            self.posicao + self.dimensoes
+            self.posicao + [self.largura, self.altura]
         )
 
     def esta_movimentando(self, teclas: List[bool]) -> bool:
@@ -133,8 +134,8 @@ class Tela:
         )
 
         return [
-            Paleta(posicoes_iniciais[0], dimensoes, pygame.K_w, pygame.K_s),
-            Paleta(posicoes_iniciais[1], dimensoes, pygame.K_UP, pygame.K_DOWN)
+            Paleta(posicoes_iniciais[0], dimensoes, [pygame.K_w, pygame.K_s]),
+            Paleta(posicoes_iniciais[1], dimensoes, [pygame.K_UP, pygame.K_DOWN])
         ]
 
     def cria_bola(self) -> Bola:
