@@ -19,12 +19,30 @@ class Cores:
     branco: Tuple[int] = (255, 255, 255)
 
 
+class Paleta:
+    """Paleta para refletir a bola."""
+    velocidade: int = 5
+
+    def __init__(self, posicao: List[int], dimensoes: List[int]) -> None:
+        self.dimensoes = dimensoes
+        self.posicao = posicao
+
+    def desenha(self, tela: pygame.Surface) -> None:
+        """Desenha uma paleta na tela."""
+        pygame.draw.rect(
+            tela,
+            Cores.branco,
+            self.posicao + self.dimensoes
+        )
+
+
 class Tela:
     """Informações sobre a tela."""
     def __init__(self, largura: int, altura: int) -> None:
         self.largura = largura
         self.altura = altura
         self.tela: pygame.Surface = self.cria_tela()
+        self.paletas: List[Paleta] = self.cria_paletas()
 
     def cria_tela(self) -> pygame.Surface:
         """Cria a tela básica do jogo."""
@@ -36,6 +54,9 @@ class Tela:
     def renderiza(self) -> None:
         """Preenche o fundo da tela."""
         self.tela.fill(Cores.preto)
+
+        for paleta in self.paletas:
+            paleta.desenha(self.tela)
 
         self.desenha_meio_campo()
         self.desenha_bordas()
@@ -67,7 +88,19 @@ class Tela:
             Bordas.espessura
         )
 
+    def cria_paletas(self) -> List[Paleta]:
+        """Inicializa as paletas da tela."""
+        dimensoes: List[int] = [20, 200]
 
+        posicoes_iniciais: Tuple[List[int]] = (
+            [self.largura // 20, (self.altura - dimensoes[1]) // 2],
+            [19 * self.largura // 20 - dimensoes[0], (self.altura - dimensoes[1]) // 2]
+        )
+
+        return [
+            Paleta(posicoes_iniciais[0], dimensoes),
+            Paleta(posicoes_iniciais[1], dimensoes)
+        ]
 
 
 
