@@ -1,4 +1,7 @@
 """Código principal do jogo."""
+import math
+import random
+
 from dataclasses import dataclass
 from typing import Tuple, List
 
@@ -60,6 +63,7 @@ class Bola:
     def __init__(self, posicao: List[int], raio: int) -> None:
         self.posicao = posicao
         self.raio = raio
+        self.direcao = cria_vetor_unitario()
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha a bola na tela."""
@@ -69,6 +73,13 @@ class Bola:
             self.posicao,
             self.raio
         )
+
+    def movimenta(self) -> None:
+        """Movimenta a bola."""
+        self.posicao = [
+            int(self.posicao[0] + self.velocidade * self.direcao[0]),
+            int(self.posicao[1] + self.velocidade * self.direcao[1]),
+        ]
 
 
 class Tela:
@@ -160,6 +171,16 @@ class Tela:
         return Bola(posicao_inicial, 10)
 
 
+def cria_vetor_unitario() -> List[float]:
+    """Cria um vetor unitário [x, y] com a direção da bola."""
+    while True:
+        dir_x = random.uniform(-1.0, 1.0)
+        if dir_x:
+            break
+
+    return [dir_x, random.choice([-1, 1]) * math.sqrt(1 - dir_x ** 2)]
+
+
 def inicio_jogo() -> Tela:
     """Inicializa o jogo."""
     pygame.init()
@@ -194,6 +215,7 @@ def roda_loop(tela: Tela) -> None:
         trata_teclas_pressionadas(tela.paletas)
         if trata_eventos():
             break
+        tela.bola.movimenta()
         tela.renderiza()
         define_taxa_quadros(60)
 
