@@ -59,10 +59,11 @@ class Bola:
     """Bola que irá se movimentar pela tela."""
     velocidade: int = 10
 
-    def __init__(self, posicao: List[int], raio: int) -> None:
+    def __init__(self, posicao: List[int], raio: int, limites: List[int]) -> None:
         self.posicao = posicao
         self.raio = raio
         self.direcao = cria_vetor_unitario()
+        self.limites = limites
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha a bola na tela."""
@@ -79,6 +80,14 @@ class Bola:
             int(self.posicao[0] + self.velocidade * self.direcao[0]),
             int(self.posicao[1] + self.velocidade * self.direcao[1]),
         ]
+
+        if self.posicao[1] - self.raio < self.limites[1] or \
+                self.posicao[1] + self.raio > self.limites[0]:
+            self.direcao[1] *= -1
+
+        if self.posicao[0] - self.raio < self.limites[2] or \
+                self.posicao[0] + self.raio > self.limites[3]:
+            self.direcao[0] *= -1
 
 
 class Tela:
@@ -167,7 +176,7 @@ class Tela:
         """Inicializa a bola da tela."""
         posicao_inicial = (self.largura // 2, self.altura // 2)
 
-        return Bola(posicao_inicial, 10)
+        return Bola(posicao_inicial, 10, self.limites)
 
 
 def cria_vetor_unitario() -> List[float]:
