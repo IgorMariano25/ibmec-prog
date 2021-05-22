@@ -107,10 +107,16 @@ class Bola:
         if self.posicao[0] - self.raio < self.limites[2]:
             self.direcao[0] *= -1
             self.posicao[0] = self.limites[2] + self.raio
+            self.aumenta_velocidade()
 
         if self.posicao[0] + self.raio > self.limites[3]:
             self.direcao[0] *= -1
             self.posicao[0] = self.limites[3] - self.raio
+            self.aumenta_velocidade()
+
+    def aumenta_velocidade(self) -> None:
+        """Incrementa a velocidade da bola."""
+        self.velocidade += 1
 
 
 class Tela:
