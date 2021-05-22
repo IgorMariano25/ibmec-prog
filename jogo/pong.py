@@ -37,6 +37,18 @@ class Paleta:
             self.posicao + self.dimensoes
         )
 
+    def esta_movimentando(self, teclas: List[bool]) -> bool:
+        """Retorna True caso uma das teclas de movimento esteja pressionada."""
+        return any((teclas[self.subir], teclas[self.descer]))
+
+    def movimenta(self, teclas: List[bool]) -> None:
+        """Movimenta a paleta conforme as teclas que estão pressionadas."""
+        if teclas[self.subir]:
+            self.posicao[1] -= self.velocidade
+
+        if teclas[self.descer]:
+            self.posicao[1] += self.velocidade
+
 
 class Bola:
     """Bola que irá se movimentar pela tela."""
@@ -152,9 +164,18 @@ def trata_eventos() -> bool:
     return False
 
 
+def trata_teclas_pressionadas(paletas: List[Paleta]) -> None:
+    """Trata o pressionamento de teclas que movimentam as paletas."""
+    teclas: List[bool] = pygame.key.get_pressed()
+    if any((paleta.esta_movimentando(teclas) for paleta in paletas)):
+        for paleta in paletas:
+            paleta.movimenta(teclas)
+
+
 def roda_loop(tela: Tela) -> None:
     """Roda o loop principal do jogo."""
     while True:
+        trata_teclas_pressionadas(tela.paletas)
         if trata_eventos():
             break
         tela.renderiza()
