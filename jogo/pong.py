@@ -39,9 +39,20 @@ def define_taxa_quadros(fps: int):
     pygame.time.Clock().tick(fps)
 
 
+def trata_eventos() -> bool:
+    """Trata os eventos ocorridos entre cada quadro."""
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            return True
+
+    return False
+
+
 def roda_loop(tela: Tela) -> None:
     """Roda o loop principal do jogo."""
     while True:
+        if trata_eventos():
+            break
         tela.renderiza()
         define_taxa_quadros(60)
 
