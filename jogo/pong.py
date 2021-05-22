@@ -1,11 +1,10 @@
 """Código principal do jogo."""
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, List
 
 import pygame
 
 
-@dataclass
 class Tela:
     """Informações sobre a tela."""
     largura: int = 800
@@ -18,13 +17,38 @@ class Tela:
 
     def renderiza(self) -> None:
         """Preenche o fundo da tela."""
-        self.tela.fill(Cores.branco)
+        self.tela.fill(Cores.preto)
+        self.desenha_bordas()
         pygame.display.update()
+
+    def desenha_bordas(self) -> None:
+        """Desenha as bordas do campo na tela."""
+        retangulo: List[int] = [
+            Bordas.margem,
+            Bordas.margem,
+            self.largura - Bordas.margem * 2,
+            self.altura - Bordas.margem * 2
+        ]
+
+        pygame.draw.rect(
+            self.tela,
+            Cores.branco,
+            retangulo,
+            Bordas.espessura
+        )
+
+
+@dataclass
+class Bordas:
+    """Informações sobre as bordas da tela."""
+    margem: int = 10
+    espessura: int = 3
 
 
 @dataclass
 class Cores:
     """Cores para a tela e objetos."""
+    preto: Tuple[int] = (0, 0, 0)
     branco: Tuple[int] = (255, 255, 255)
 
 
