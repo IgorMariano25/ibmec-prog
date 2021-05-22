@@ -7,11 +7,9 @@ import pygame
 
 class Tela:
     """Informações sobre a tela."""
-    largura: int = 800
-    altura: int = 600
-    tela = None
-
-    def __init__(self) -> None:
+    def __init__(self, largura: int, altura: int) -> None:
+        self.largura = largura
+        self.altura = altura
         self.tela: pygame.Surface = pygame.display.set_mode((self.largura, self.altura))
         pygame.display.set_caption("Pong!")
 
@@ -55,7 +53,7 @@ class Cores:
 def inicio_jogo() -> Tela:
     """Inicializa o jogo."""
     pygame.init()
-    return Tela()
+    return Tela(800, 600)
 
 
 def define_taxa_quadros(fps: int):
