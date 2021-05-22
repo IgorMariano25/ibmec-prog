@@ -57,7 +57,7 @@ class Paleta:
 
 class Bola:
     """Bola que irá se movimentar pela tela."""
-    velocidade: int = 10
+    velocidade: int = 5
 
     def __init__(self, posicao: List[int], raio: int, limites: List[int]) -> None:
         self.posicao: List[int] = posicao
