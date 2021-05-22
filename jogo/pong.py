@@ -1,5 +1,6 @@
 """Código principal do jogo."""
 import math
+import time
 import random
 
 from dataclasses import dataclass
@@ -122,6 +123,12 @@ class Tela:
         )
         self.bola: Bola = self.cria_bola()
 
+    def inicia_partida(self) -> None:
+        """Reposiciona paletas e bola para uma nova partida."""
+        time.sleep(0.5)
+        self.paletas: List[Paleta] = self.cria_paletas()
+        self.bola: Bola = self.cria_bola()
+
     def cria_tela(self) -> pygame.Surface:
         """Cria a tela básica do jogo."""
         tela: pygame.Surface = pygame.display.set_mode((self.largura, self.altura))
@@ -188,21 +195,19 @@ class Tela:
 
         return Bola(posicao_inicial, 10, self.limites)
 
-    def atualiza_pontuacao(self) -> None:
+    def atualiza_jogo(self) -> None:
         """Analisa a situação do jogo e age caso um ponto seja feito."""
         if self.bola.posicao[0] - self.bola.raio < self.limites[2] and \
                 (self.bola.posicao[1] < self.paletas[0].posicao[1] or \
                  self.bola.posicao[1] > self.paletas[0].posicao[1] + self.paletas[0].altura):
             self.pontos[1] += 1
-            self.bola = self.cria_bola()
+            self.inicia_partida()
 
         if self.bola.posicao[0] + self.bola.raio > self.limites[3] and \
                 (self.bola.posicao[1] < self.paletas[1].posicao[1] or \
                  self.bola.posicao[1] > self.paletas[1].posicao[1] + self.paletas[1].altura):
             self.pontos[0] += 1
-            self.bola = self.cria_bola()
-
-
+            self.inicia_partida()
 
 
 def inicio_jogo() -> Tela:
@@ -240,7 +245,7 @@ def roda_loop(tela: Tela) -> None:
         if trata_eventos():
             break
         tela.bola.movimenta()
-        tela.atualiza_pontuacao()
+        tela.atualiza_jogo()
         tela.renderiza()
         define_taxa_quadros(60)
 
