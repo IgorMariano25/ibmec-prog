@@ -91,13 +91,25 @@ class Bola:
             int(self.posicao[1] + self.velocidade * self.direcao[1]),
         ]
 
-        if self.posicao[1] - self.raio < self.limites[1] or \
-                self.posicao[1] + self.raio > self.limites[0]:
-            self.direcao[1] *= -1
+        self.ajusta_posicao_nos_limites()
 
-        if self.posicao[0] - self.raio < self.limites[2] or \
-                self.posicao[0] + self.raio > self.limites[3]:
+    def ajusta_posicao_nos_limites(self) -> None:
+        """Corrige a posição da bola caso ela tenha passado dos limites."""
+        if self.posicao[1] + self.raio > self.limites[0]:
+            self.direcao[1] *= -1
+            self.posicao[1] = self.limites[0] - self.raio
+
+        if self.posicao[1] - self.raio < self.limites[1]:
+            self.direcao[1] *= -1
+            self.posicao[1] = self.limites[1] + self.raio
+
+        if self.posicao[0] - self.raio < self.limites[2]:
             self.direcao[0] *= -1
+            self.posicao[0] = self.limites[2] + self.raio
+
+        if self.posicao[0] + self.raio > self.limites[3]:
+            self.direcao[0] *= -1
+            self.posicao[0] = self.limites[3] - self.raio
 
 
 class Tela:
@@ -197,13 +209,13 @@ class Tela:
 
     def atualiza_jogo(self) -> None:
         """Analisa a situação do jogo e age caso um ponto seja feito."""
-        if self.bola.posicao[0] - self.bola.raio < self.limites[2] and \
+        if self.bola.posicao[0] - self.bola.raio == self.limites[2] and \
                 (self.bola.posicao[1] < self.paletas[0].posicao[1] or \
                  self.bola.posicao[1] > self.paletas[0].posicao[1] + self.paletas[0].altura):
             self.pontos[1] += 1
             self.inicia_partida()
 
-        if self.bola.posicao[0] + self.bola.raio > self.limites[3] and \
+        if self.bola.posicao[0] + self.bola.raio == self.limites[3] and \
                 (self.bola.posicao[1] < self.paletas[1].posicao[1] or \
                  self.bola.posicao[1] > self.paletas[1].posicao[1] + self.paletas[1].altura):
             self.pontos[0] += 1
