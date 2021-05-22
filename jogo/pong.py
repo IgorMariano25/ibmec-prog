@@ -32,8 +32,7 @@ class Paleta:
         self.posicao = posicao
         self.subir = acoes[0]
         self.descer = acoes[1]
-        self.limite_inferior = limites[0]
-        self.limite_superior = limites[1]
+        self.limites = limites
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha uma paleta na tela."""
@@ -49,10 +48,10 @@ class Paleta:
 
     def movimenta(self, teclas: List[bool]) -> None:
         """Movimenta a paleta conforme as teclas que estão pressionadas."""
-        if teclas[self.subir] and self.posicao[1] > self.limite_superior:
+        if teclas[self.subir] and self.posicao[1] > self.limites[1]:
             self.posicao[1] -= self.velocidade
 
-        if teclas[self.descer] and self.posicao[1] + self.altura < self.limite_inferior:
+        if teclas[self.descer] and self.posicao[1] + self.altura < self.limites[0]:
             self.posicao[1] += self.velocidade
 
 
