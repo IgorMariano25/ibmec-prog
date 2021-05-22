@@ -23,12 +23,14 @@ class Paleta:
     """Paleta para refletir a bola."""
     velocidade: int = 5
 
-    def __init__(self, posicao: List[int], dimensoes: List[int], acoes: List[int]) -> None:
+    def __init__(self, posicao: List[int], dimensoes: List[int], acoes: List[int], limites: List[int]) -> None:
         self.largura = dimensoes[0]
         self.altura = dimensoes[1]
         self.posicao = posicao
         self.subir = acoes[0]
         self.descer = acoes[1]
+        self.limite_inferior = limites[0]
+        self.limite_superior = limites[1]
 
     def desenha(self, tela: pygame.Surface) -> None:
         """Desenha uma paleta na tela."""
@@ -44,10 +46,10 @@ class Paleta:
 
     def movimenta(self, teclas: List[bool]) -> None:
         """Movimenta a paleta conforme as teclas que estão pressionadas."""
-        if teclas[self.subir]:
+        if teclas[self.subir] and self.posicao[1] > self.limite_superior:
             self.posicao[1] -= self.velocidade
 
-        if teclas[self.descer]:
+        if teclas[self.descer] and self.posicao[1] + self.altura < self.limite_inferior:
             self.posicao[1] += self.velocidade
 
 
@@ -75,7 +77,20 @@ class Tela:
         self.largura: int = largura
         self.altura: int = altura
         self.tela: pygame.Surface = self.cria_tela()
+
+        self.limites: List[int] = [
+            altura - Bordas.margem - Bordas.espessura // 2,
+            Bordas.margem + Bordas.espessura // 2
+        ]
         self.paletas: List[Paleta] = self.cria_paletas()
+
+        # Ferindo encapsulamento aqui. Melhorar em algum momento...
+        self.limites.extend(
+            [
+                self.paletas[0].posicao[0] + self.paletas[0].largura,
+                self.paletas[1].posicao[0]
+            ]
+        )
         self.bola: Bola = self.cria_bola()
 
     def cria_tela(self) -> pygame.Surface:
@@ -134,8 +149,8 @@ class Tela:
         )
 
         return [
-            Paleta(posicoes_iniciais[0], dimensoes, [pygame.K_w, pygame.K_s]),
-            Paleta(posicoes_iniciais[1], dimensoes, [pygame.K_UP, pygame.K_DOWN])
+            Paleta(posicoes_iniciais[0], dimensoes, [pygame.K_w, pygame.K_s], self.limites[:2]),
+            Paleta(posicoes_iniciais[1], dimensoes, [pygame.K_UP, pygame.K_DOWN], self.limites[:2])
         ]
 
     def cria_bola(self) -> Bola:
