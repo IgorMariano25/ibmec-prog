@@ -5,6 +5,20 @@ from typing import Tuple, List
 import pygame
 
 
+@dataclass
+class Bordas:
+    """Informações sobre as bordas da tela."""
+    margem: int = 10
+    espessura: int = 3
+
+
+@dataclass
+class Cores:
+    """Cores para a tela e objetos."""
+    preto: Tuple[int] = (0, 0, 0)
+    branco: Tuple[int] = (255, 255, 255)
+
+
 class Tela:
     """Informações sobre a tela."""
     def __init__(self, largura: int, altura: int) -> None:
@@ -36,18 +50,8 @@ class Tela:
         )
 
 
-@dataclass
-class Bordas:
-    """Informações sobre as bordas da tela."""
-    margem: int = 10
-    espessura: int = 3
 
 
-@dataclass
-class Cores:
-    """Cores para a tela e objetos."""
-    preto: Tuple[int] = (0, 0, 0)
-    branco: Tuple[int] = (255, 255, 255)
 
 
 def inicio_jogo() -> Tela:
