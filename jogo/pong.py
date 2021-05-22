@@ -24,7 +24,11 @@ class Tela:
     def __init__(self, largura: int, altura: int) -> None:
         self.largura = largura
         self.altura = altura
-        self.tela: pygame.Surface = pygame.display.set_mode((self.largura, self.altura))
+        self.tela: pygame.Surface = self.cria_tela()
+
+    def cria_tela(self) -> pygame.Surface:
+        """Cria a tela básica do jogo."""
+        pygame.display.set_mode((self.largura, self.altura))
         pygame.display.set_caption("Pong!")
 
     def renderiza(self) -> None:
