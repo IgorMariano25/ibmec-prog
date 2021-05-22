@@ -12,3 +12,9 @@ Este projeto inclui uma implementação para o jogo Pong, desenvolvido inicialme
 Execute o arquivo `pong.py` através do comando:
 
 `python pong.py`
+
+## Como jogar
+
+Use as teclas `w` e `s` para mover a paleta da esquerda para cima ou para baixo.
+
+Use as teclas direcionais para cima ou para baixo para mover a paleta da direita.
