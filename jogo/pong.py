@@ -36,6 +36,24 @@ class Paleta:
         )
 
 
+class Bola:
+    """Bola que irá se movimentar pela tela."""
+    velocidade: int = 10
+
+    def __init__(self, posicao: List[int], raio: int) -> None:
+        self.posicao = posicao
+        self.raio = raio
+
+    def desenha(self, tela: pygame.Surface) -> None:
+        """Desenha a bola na tela."""
+        pygame.draw.circle(
+            tela,
+            Cores.branco,
+            self.posicao,
+            self.raio
+        )
+
+
 class Tela:
     """Informações sobre a tela."""
     def __init__(self, largura: int, altura: int) -> None:
@@ -43,6 +61,7 @@ class Tela:
         self.altura = altura
         self.tela: pygame.Surface = self.cria_tela()
         self.paletas: List[Paleta] = self.cria_paletas()
+        self.bola: Bola = self.cria_bola()
 
     def cria_tela(self) -> pygame.Surface:
         """Cria a tela básica do jogo."""
@@ -57,6 +76,8 @@ class Tela:
 
         for paleta in self.paletas:
             paleta.desenha(self.tela)
+
+        self.bola.desenha(self.tela)
 
         self.desenha_meio_campo()
         self.desenha_bordas()
@@ -102,7 +123,11 @@ class Tela:
             Paleta(posicoes_iniciais[1], dimensoes)
         ]
 
+    def cria_bola(self) -> Bola:
+        """Inicializa a bola da tela."""
+        posicao_inicial = (self.largura // 2, self.altura // 2)
 
+        return Bola(posicao_inicial, 10)
 
 
 def inicio_jogo() -> Tela:
