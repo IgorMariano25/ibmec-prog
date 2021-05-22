@@ -36,8 +36,20 @@ class Tela:
     def renderiza(self) -> None:
         """Preenche o fundo da tela."""
         self.tela.fill(Cores.preto)
+
+        self.desenha_meio_campo()
         self.desenha_bordas()
         pygame.display.update()
+
+    def desenha_meio_campo(self) -> None:
+        """Desenha o meio de campo do jogo."""
+        pygame.draw.line(
+            self.tela,
+            Cores.branco,
+            [self.largura // 2, self.altura // 10],
+            [self.largura // 2, 9 * self.altura // 10],
+            Bordas.espessura
+        )
 
     def desenha_bordas(self) -> None:
         """Desenha as bordas do campo na tela."""
