@@ -62,7 +62,7 @@ class Bola:
     def __init__(self, posicao: List[int], raio: int, limites: List[int]) -> None:
         self.posicao: List[int] = posicao
         self.raio: int = raio
-        self.direcao: List[float] = cria_vetor_unitario()
+        self.direcao: List[float] = self.cria_vetor_unitario()
         self.limites: List[int] = limites
 
     def desenha(self, tela: pygame.Surface) -> None:
@@ -73,6 +73,15 @@ class Bola:
             self.posicao,
             self.raio
         )
+
+    def cria_vetor_unitario(self) -> List[float]:
+        """Cria um vetor unitário [x, y] com a direção da bola."""
+        while True:
+            dir_x: float = random.uniform(-1.0, 1.0)
+            if int(dir_x * self.velocidade):
+                break
+
+        return [dir_x, random.choice([-1, 1]) * math.sqrt(1 - dir_x ** 2)]
 
     def movimenta(self) -> None:
         """Movimenta a bola."""
@@ -194,14 +203,6 @@ class Tela:
             self.bola = self.cria_bola()
 
 
-def cria_vetor_unitario() -> List[float]:
-    """Cria um vetor unitário [x, y] com a direção da bola."""
-    while True:
-        dir_x: float = random.uniform(-1.0, 1.0)
-        if dir_x:
-            break
-
-    return [dir_x, random.choice([-1, 1]) * math.sqrt(1 - dir_x ** 2)]
 
 
 def inicio_jogo() -> Tela:
