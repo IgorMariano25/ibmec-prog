@@ -175,9 +175,23 @@ class Tela:
 
     def cria_bola(self) -> Bola:
         """Inicializa a bola da tela."""
-        posicao_inicial: Tuple[int] = (self.largura // 2, self.altura // 2)
+        posicao_inicial: List[int] = [self.largura // 2, self.altura // 2]
 
         return Bola(posicao_inicial, 10, self.limites)
+
+    def atualiza_pontuacao(self) -> None:
+        """Analisa a situação do jogo e age caso um ponto seja feito."""
+        if self.bola.posicao[0] - self.bola.raio < self.limites[2] and \
+                (self.bola.posicao[1] < self.paletas[0].posicao[1] or \
+                 self.bola.posicao[1] > self.paletas[0].posicao[1] + self.paletas[0].altura):
+            self.pontos[1] += 1
+            self.bola = self.cria_bola()
+
+        if self.bola.posicao[0] + self.bola.raio > self.limites[3] and \
+                (self.bola.posicao[1] < self.paletas[1].posicao[1] or \
+                 self.bola.posicao[1] > self.paletas[1].posicao[1] + self.paletas[1].altura):
+            self.pontos[0] += 1
+            self.bola = self.cria_bola()
 
 
 def cria_vetor_unitario() -> List[float]:
@@ -225,6 +239,7 @@ def roda_loop(tela: Tela) -> None:
         if trata_eventos():
             break
         tela.bola.movimenta()
+        tela.atualiza_pontuacao()
         tela.renderiza()
         define_taxa_quadros(60)
 
