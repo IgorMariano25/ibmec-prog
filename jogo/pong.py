@@ -10,6 +10,16 @@ class Tela:
     """Informações sobre a tela."""
     largura: int = 800
     altura: int = 600
+    tela = None
+
+    def __init__(self) -> None:
+        self.tela = pygame.display.set_mode((self.largura, self.altura))
+        pygame.display.set_caption("Pong!")
+
+    def renderiza(self) -> None:
+        """Preenche o fundo da tela."""
+        self.tela.fill(Cores.branco)
+        pygame.display.update()
 
 
 @dataclass
@@ -18,19 +28,10 @@ class Cores:
     branco: Tuple[int] = (255, 255, 255)
 
 
-def inicio_jogo() -> pygame.Surface:
+def inicio_jogo() -> Tela:
     """Inicializa o jogo."""
     pygame.init()
-    tela = pygame.display.set_mode((Tela.largura, Tela.altura))
-    pygame.display.set_caption("Pong!")
-
-    return tela
-
-
-def renderiza(tela: pygame.Surface) -> None:
-    """Renderiza a tela do jogo."""
-    tela.fill(Cores.branco)
-    pygame.display.update()
+    return Tela()
 
 
 def define_taxa_quadros(fps: int):
@@ -38,10 +39,10 @@ def define_taxa_quadros(fps: int):
     pygame.time.Clock().tick(fps)
 
 
-def roda_loop(tela: pygame.Surface) -> None:
+def roda_loop(tela: Tela) -> None:
     """Roda o loop principal do jogo."""
     while True:
-        renderiza(tela)
+        tela.renderiza()
         define_taxa_quadros(60)
 
 
@@ -53,6 +54,6 @@ def encerra_jogo() -> None:
 
 def jogo() -> None:
     """Entrada do jogo."""
-    tela: pygame.Surface = inicio_jogo()
+    tela: Tela = inicio_jogo()
     roda_loop(tela)
     encerra_jogo()
