@@ -45,7 +45,14 @@ def roda_loop(tela: pygame.Surface) -> None:
         define_taxa_quadros(60)
 
 
+def encerra_jogo() -> None:
+    """Encerra o jogo."""
+    print("Saindo do jogo!")
+    pygame.quit()
+
+
 def jogo() -> None:
     """Entrada do jogo."""
     tela: pygame.Surface = inicio_jogo()
     roda_loop(tela)
+    encerra_jogo()
