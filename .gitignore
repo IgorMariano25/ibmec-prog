@@ -1,2 +1,10 @@
 .vscode
 **/__pycache__
+*.xlsx
+roteiros
+roteiros/*
+gabaritos/gab_*
+reforco_presentes.txt
+tarefas/*
+**/__pycache__
+**/.venv
