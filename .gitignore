@@ -8,3 +8,4 @@ reforco_presentes.txt
 tarefas/*
 **/__pycache__
 **/.venv
+presenças/**
